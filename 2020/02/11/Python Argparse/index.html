@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Python Argparse | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="官方文档 Argparse 教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Argparse">
+<meta property="og:url" content="http://yoursite.com/2020/02/11/Python%20Argparse/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="官方文档 Argparse 教程">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-11T08:50:44.000Z">
+<meta property="article:modified_time" content="2020-04-12T14:38:15.202Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Python Argparse" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/11/Python%20Argparse/" class="article-date">
+  <time datetime="2020-02-11T08:50:44.000Z" itemprop="datePublished">2020-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python Argparse
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://docs.python.org/zh-cn/3/howto/argparse.html" target="_blank" rel="noopener">官方文档</a></p>
+<h2 id="Argparse-教程"><a href="#Argparse-教程" class="headerlink" title="Argparse 教程"></a>Argparse 教程</h2><a id="more"></a>
+<p>prog.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import argparse</span><br><span class="line">parser &#x3D; argparse.ArgumentParser()</span><br><span class="line">parser.parse_args()</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python3 prog.py --help</span><br><span class="line">usage: prog.py [-h]</span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help  show this help message and exit</span><br></pre></td></tr></table></figure>
+<h2 id="位置参数"><a href="#位置参数" class="headerlink" title="位置参数"></a>位置参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import argparse</span><br><span class="line">parser &#x3D; argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&quot;echo&quot;)</span><br><span class="line">args &#x3D; parser.parse_args()</span><br><span class="line">print(args.echo)</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ python3 prog.py --help</span><br><span class="line">usage: prog.py [-h] echo</span><br><span class="line">positional arguments:</span><br><span class="line">  echo</span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help  show this help message and exit</span><br><span class="line">  </span><br><span class="line">$ python3 prog.py foo</span><br><span class="line">foo</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用add_argument()方法添加位置函数</li>
+<li>调用程序必须制定一个选项</li>
+<li>args的echo变量与传递给add_argement()的字符串参数一致，都是echo<h6 id="help"><a href="#help" class="headerlink" title="help"></a>help</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&quot;echo&quot;, help&#x3D;&quot;echo the string you use here&quot;)</span><br></pre></td></tr></table></figure>
+help会提供位置参数的说明<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ python3 prog.py -h</span><br><span class="line">usage: prog.py [-h] echo</span><br><span class="line">positional arguments:</span><br><span class="line">  echo        echo the string you use here</span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --help  show this help message and exit</span><br></pre></td></tr></table></figure>
+<h6 id="type"><a href="#type" class="headerlink" title="type"></a>type</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&quot;square&quot;, help&#x3D;&quot;display a square of a given number&quot;,type&#x3D;int)</span><br></pre></td></tr></table></figure>
+运行结果<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python prog.py 4</span><br><span class="line">16</span><br></pre></td></tr></table></figure>
+<h2 id="可选参数"><a href="#可选参数" class="headerlink" title="可选参数"></a>可选参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import argparse</span><br><span class="line">parser &#x3D; argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(&quot;--verbosity&quot;, help&#x3D;&quot;increase output verbosity&quot;)</span><br><span class="line">args &#x3D; parser.parse_args()</span><br><span class="line">if args.verbosity:</span><br><span class="line">    print(&quot;verbosity turned on&quot;)</span><br></pre></td></tr></table></figure></li>
+<li>这一程序被设计为当指定 –verbosity 选项时显示某些东西，否则不显示。</li>
+<li>这一选项是可选的。如果一个可选参数没有被使用时，相关变量被赋值为 None。</li>
+<li>使用 –verbosity 选项时，必须指定一个值，但可以是任何值。</li>
+</ul>
+<h6 id="action"><a href="#action" class="headerlink" title="action"></a>action</h6><p>让–verbosity只有True和False</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&quot;--verbose&quot;, help&#x3D;&quot;increase output verbosity&quot;,action&#x3D;&quot;store_true&quot;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>store_true意味着这一选项存在args.verbose是True，否则是False。</li>
+<li>不能给它指定值</li>
+</ul>
+<h6 id="choices"><a href="#choices" class="headerlink" title="choices"></a>choices</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&quot;-v&quot;, &quot;--verbosity&quot;, type&#x3D;int, choices&#x3D;[0, 1, 2],help&#x3D;&quot;increase output verbosity&quot;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>verbosity的参数是0,1,2中的一个</li>
+</ul>
+<h2 id="短选项"><a href="#短选项" class="headerlink" title="短选项"></a>短选项</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, help&#x3D;&quot;increase output verbosity&quot;, action&#x3D;&quot;store_true&quot;)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/11/Python%20Argparse/" data-id="ck8x59o3a0001u8w2243hhz4u" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          梯度下降法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/09/%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E9%83%A8%E7%BD%B2%E8%87%B3GitHub/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">搭建hexo博客，部署至GitHub</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hexo%E5%88%86%E7%B1%BB/">hexo分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E6%99%AE/">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E9%83%A8%E7%BD%B2/" rel="tag">hexo部署</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE/" rel="tag">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/hexo%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">hexo部署</a> <a href="/tags/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/12/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/">梯度下降法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/11/Python%20Argparse/">Python Argparse</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/09/%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E9%83%A8%E7%BD%B2%E8%87%B3GitHub/">搭建hexo博客，部署至GitHub</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/09/Python%E5%86%85%E9%83%A8%E5%87%BD%E6%95%B0/">Python 内部函数</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
