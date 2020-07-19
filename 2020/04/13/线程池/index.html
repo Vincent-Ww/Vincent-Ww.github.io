@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>线程池 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="线程池">
+<meta property="og:url" content="http://yoursite.com/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/%5Cimages%5Cpasted-1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/%5Cimages%5Cpasted-2.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/%5Cimages%5Cpasted-3.png">
+<meta property="article:published_time" content="2020-04-12T16:13:51.000Z">
+<meta property="article:modified_time" content="2020-07-18T16:31:49.215Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/%5Cimages%5Cpasted-1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-线程池" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="article-date">
+  <time datetime="2020-04-12T16:13:51.000Z" itemprop="datePublished">2020-04-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      线程池
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <br>
+<a id="more"></a>
+## 线程池
+<font size=3>*在研究线程池之前，我们得对什么是线程池有一个概念？*</font><br>
+多线程已经应用得十分广泛，而**线程池就是线程的一种使用模式**。进行多线程处理任务时，如果对于每个任务都进行新建线程和销毁线程操作，毫无疑问会带来过多的调度开销，而线程池可以避免这一点。线程池所做的简单来说就是**合理地调度线程来执行任务，尽量保证内核资源在调度范围内的充分利用**。
+<br><br>
+<font size=3>*我们为什么要使用线程池？*</font><br>
++ 降低资源消耗
+  - 通过重复利用线程来减少线程创建与销毁的操作。
++ 提高响应速度
+  - 相比较新建立线程再执行任务，拿现有的线程来执行肯定要快些。
++ 提高线程的可管理性
+  - 比如延时策略，定时执行策略。
+<br><br><br>
+
+<h5 id="JAVA的线程池相关类和接口"><a href="#JAVA的线程池相关类和接口" class="headerlink" title="JAVA的线程池相关类和接口"></a>JAVA的线程池相关类和接口</h5><p><img src="%5Cimages%5Cpasted-1.png" alt="upload successful"></p>
+<ul>
+<li>ExecutorService提供了生命周期的管理方法，以及可以跟踪一个或多个异步任务执行状况并返回Future的方法。</li>
+<li>ScheduledThreadPoolExecutor： 一个实现定时调度任务的线程池。</li>
+<li>ThreadPoolExecutor是线程池的核心类，下面会重点介绍。<br><br><br><br></li>
+</ul>
+<h5 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h5><p>ThreadPoolExecutor提供了4个构造函数来创建线程池。其中总共涉及了7个参数，下面来一一说明：</p>
+<ol>
+<li>int corePoolSize<br><br>线程池中的线程有两种，分别是核心线程和非核心线程。此参数就是核心线程数的最大值。</li>
+<li>int maximumPoolSize<br><br> 线程池中所有线程的最大值。</li>
+<li>long keepAliveTime<br><br> 非核心线程的限制超时时长。就是说如果一个非核心线程在keepAliveTime内都是出于限制状态，就会被销毁。如果allowCoreThreadTimeOut=true,次参数也会作用于核心线程上。</li>
+<li>TimeUnit unit<br><br>keepAliveTime的单位。TimeUnit是一个枚举类型。</li>
+<li>BlockingQueue<Runnable> workQueue<br><br>线程池中的任务队列。这是一个很重要的参数。当当前线程数超过corePoolSize，就将线程加入此队列等待。<br></li>
+</ol>
+<p>几种常见workQueue类型：<br></p>
+<ol>
+<li>SynchronousQueue<br><br>队列接收到新任务，直接提交给线程处理，不保留它。如果所有线程都在工作，就新建线程。maximumPoolSize指定成Integer.MAX_VALUE。<br>每个拆入操作必须等待一个线程调用移除操作，否则插入操作一直处理拥塞状态。<br></li>
+<li>LinkedBlockingQueue<br><br>当队列接收到一个任务，如果当前线程小于核心线程，则新建核心线程处理任务；如果到达核心线程数，则进入队列等待。队列是无边界队列，即最大长大是Integer.MAX_VALUE。<br></li>
+<li>ArrayBlockingQueue<br>用数组实现的有边界队列。</li>
+<li>DelayQueue<br>一个任务定时周期的延迟执行队列。根据指定的时间从小到大排序，否则根据插入到队列的先后排序。</li>
+<li>PriorityBlockingQueue<br>具有优先级的无边界队列。</li>
+</ol>
+<ol start="6">
+<li>ThreadFactory threadFactory<blockquote>
+<p>用于创建线程的工厂。可以通过此参数给线程设置名字，线程组，优先级，守护状态等。</p>
+</blockquote>
+</li>
+<li>RejectedExecutionHandler handler<blockquote>
+<p>当线程池满了或者队列满了时抛出异常用的，主要有四种类型。</p>
+</blockquote>
+</li>
+</ol>
+<p><br><br><br></p>
+<h5 id="执行任务流程"><a href="#执行任务流程" class="headerlink" title="执行任务流程"></a>执行任务流程</h5><ul>
+<li>线程池一开始没有线程，只有接收任务后才会创建线程。不过可以使用<code>prestartCoreThread</code>方法和<code>prestartAllCoreThreads</code>方法来预先建立1个或coreThreadPool个线程。</li>
+<li>当一个任务被提交的时，如果正在运行的线程数量小于corePoolSize,就会建立一个新的线程来处理此任务。即使有线程是处于闲置状态，也建立新线程。<br></li>
+<li>如果线程数超过corePoolSize,就将任务加入队列。<br></li>
+<li>若队列满了，且当前线程数不超过 maximumPoolSize,会建立一个非核心线程来处理任务。<br></li>
+<li>若线程数超过maximumPoolSize，则采用RejectedExecutionHandler处理。<br></li>
+</ul>
+<p><img src="%5Cimages%5Cpasted-2.png" alt="upload successful"><br><br><br>有<code>execute(Runnable command)</code>和<code>submit(Runnable command)</code>两种方法来像线程池提交任务。<br><br><code>execute</code>方法在Executor接口中实现，然后在ThreadPoolExecutor类中实现，<code>submit</code>方法在ExecutorService中声明，然后在AbstractExeuctorService抽象类中实现。<br><br>要想理解两者中的区别，我们先来看一下<code>submit(Runnable command)</code>的源码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public Future&lt;?&gt; submit(Runnable task) &#123;</span><br><span class="line">    if (task &#x3D;&#x3D; null) throw new NullPointerException();</span><br><span class="line">    RunnableFuture&lt;Void&gt; ftask &#x3D; newTaskFor(task, null);</span><br><span class="line">    execute(ftask);</span><br><span class="line">    return ftask;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，在<code>submit</code>方法中使用到了<code>execute</code>方法，但是会返回一个对象。我们来看看这个<code>newTaskFor</code>是如何定义的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">protected &lt;T&gt; RunnableFuture&lt;T&gt; newTaskFor(Runnable runnable, T value) &#123;</span><br><span class="line">    return new FutureTask&lt;T&gt;(runnable, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结合<code>newTaskFor</code>方法，原来<code>submit</code>方法返回的是一个封装<code>task</code>的了FutureTask对象。<br><br>如果task中有未检查异常(RuntimeException或Error)，<code>excute</code>方法会抛出异常，而<code>submit</code>方法执行过程中的异常不会被抛出。我们来看一下源码是如何实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public void run() &#123;</span><br><span class="line">        if (state !&#x3D; NEW ||</span><br><span class="line">            !UNSAFE.compareAndSwapObject(this, runnerOffset,</span><br><span class="line">                                         null, Thread.currentThread()))</span><br><span class="line">            return;</span><br><span class="line">        try &#123;</span><br><span class="line">            Callable&lt;V&gt; c &#x3D; callable;</span><br><span class="line">            if (c !&#x3D; null &amp;&amp; state &#x3D;&#x3D; NEW) &#123;</span><br><span class="line">                V result;</span><br><span class="line">                boolean ran;</span><br><span class="line">                try &#123;</span><br><span class="line">                    result &#x3D; c.call();</span><br><span class="line">                    ran &#x3D; true;</span><br><span class="line">                &#125; catch (Throwable ex) &#123;</span><br><span class="line">                    result &#x3D; null;</span><br><span class="line">                    ran &#x3D; false;</span><br><span class="line">                    setException(ex);</span><br><span class="line">                &#125;</span><br><span class="line">                if (ran)</span><br><span class="line">                    set(result);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            runner &#x3D; null;</span><br><span class="line">            int s &#x3D; state;</span><br><span class="line">            if (s &gt;&#x3D; INTERRUPTING)</span><br><span class="line">                handlePossibleCancellationInterrupt(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">protected void setException(Throwable t) &#123;</span><br><span class="line">        if (UNSAFE.compareAndSwapInt(this, stateOffset, NEW, COMPLETING)) &#123;</span><br><span class="line">            outcome &#x3D; t;</span><br><span class="line">            UNSAFE.putOrderedInt(this, stateOffset, EXCEPTIONAL); &#x2F;&#x2F; final state</span><br><span class="line">            finishCompletion();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><code>submit</code>方法会捕获所有的Throwable类型，并且通过<code>setException()</code>方法把异常保存在变量<code>outcome</code>中，所以<strong>线程池执行过程中的异常不会被抛出</strong>。<br><br>还有非常重要的一点，当<code>submit</code>方法的返回值FutureTask对象被使用<code>get()</code>方法时，会在再调用过程中抛出这个未检查异常。也就是说虽然<code>submit</code>方法不会抛出异常，不过可以通过<code>get</code>方法来抛出这个异常。<br><br>源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public V get() throws InterruptedException, ExecutionException &#123;</span><br><span class="line">        int s &#x3D; state;</span><br><span class="line">        if (s &lt;&#x3D; COMPLETING)</span><br><span class="line">            s &#x3D; awaitDone(false, 0L);</span><br><span class="line">        return report(s);</span><br><span class="line">    &#125;</span><br><span class="line">private V report(int s) throws ExecutionException &#123;</span><br><span class="line">        Object x &#x3D; outcome;</span><br><span class="line">        if (s &#x3D;&#x3D; NORMAL)</span><br><span class="line">            return (V)x;</span><br><span class="line">        if (s &gt;&#x3D; CANCELLED)</span><br><span class="line">            throw new CancellationException();</span><br><span class="line">        throw new ExecutionException((Throwable)x);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><br><br><br></p>
+<h5 id="几种常见线程池"><a href="#几种常见线程池" class="headerlink" title="几种常见线程池"></a>几种常见线程池</h5><ol>
+<li>newFixedThreadPool<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newFixedThreadPool(int nThreads) &#123;</span><br><span class="line">    return new ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                  0L, TimeUnit.MILLISECONDS,</span><br><span class="line">                                  new LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>corePoolSize = maximumPoolSize</li>
+<li>keepAliveTime = 0</li>
+<li>使用无边界队列LinkedBlockingQueue<br>适应场景：适用于处理CPU密集型的任务，尽可能少的分配线程，即适用于执行长期任务。<br><br>缺点：可能导致内存飙升。因为无边界的队列可能导致队列的任务越积越多。</li>
+</ul>
+</li>
+<li>newCashedThreadPool<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newCachedThreadPool() &#123;</span><br><span class="line">    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,</span><br><span class="line">                                  60L, TimeUnit.SECONDS,</span><br><span class="line">                                  new SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+如果提交速度大于处理速度，可能会建立过多线程。</li>
+<li>newSingleThreadExecutor<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newSingleThreadExecutor() &#123;</span><br><span class="line">    return new FinalizableDelegatedExecutorService</span><br><span class="line">        (new ThreadPoolExecutor(1, 1,</span><br><span class="line">                                0L, TimeUnit.MILLISECONDS,</span><br><span class="line">                                new LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>ScheduledThreadPool<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public ScheduledThreadPoolExecutor(int corePoolSize) &#123;</span><br><span class="line">    super(corePoolSize, Integer.MAX_VALUE,</span><br><span class="line">          DEFAULT_KEEPALIVE_MILLIS, MILLISECONDS,</span><br><span class="line">          new DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>按某个周期执行。<br><br><br><br></li>
+</ul>
+</li>
+</ol>
+<h5 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h5><p>什么时候会拒绝？</p>
+<ol>
+<li>当executor已经shutdown。</li>
+<li>当线程和队列都全部被占用。(仅当finite bounded情况下)。<br></li>
+</ol>
+<p>4种拒绝策略：</p>
+<ol>
+<li>ThreadPoolExecutor.AbortPolicy<br>抛出RejectedExecutionException</li>
+<li>hreadPoolExecutor.CallerRunsPolicy<br>调用当前线程处理该任务</li>
+<li>ThreadPoolExecutor.DiscardPolicy<br>也是丢弃任务，但是不抛出异常。</li>
+<li>ThreadPoolExecutor.DiscardOldestPolicy<br>丢弃队列最前面的任务，然后重新尝试执行任务<br><br><br><br></li>
+</ol>
+<h5 id="线程池的状态"><a href="#线程池的状态" class="headerlink" title="线程池的状态"></a>线程池的状态</h5><ul>
+<li>RUNNING: 接收新任务，执行队列中的任务。</li>
+<li>SHUTDOWN: 不接受新任务，执行队列中的任务。</li>
+<li>STOP: 不执行新任务，不执行队列中的任务，尝试打断正在执行的任务。</li>
+<li>TIDYING: 所有任务都中断，workderCount(有效线程数)是0。</li>
+<li>TERMINATED: <code>terminated()</code>方法执行完毕。<br></li>
+</ul>
+<p><strong>状态转换</strong></p>
+<ul>
+<li>RUNNING -&gt; SHUTDOWN<br><code>shutdown()</code></li>
+<li>(RUNNING or SHUTDOWN) -&gt; STOP<br><code>shutdownNow()</code></li>
+<li>SHUTDOWN -&gt; TIDYING<br>当队列和线程池都是空的。</li>
+<li>STOP -&gt; TIDYING<br>当线程池空。</li>
+<li>TIDYING -&gt; TERMINATED<br><code>terminated()</code></li>
+</ul>
+<p><img src="%5Cimages%5Cpasted-3.png" alt="upload successful"><br><br><br><br></p>
+<h5 id="线程池中的ctl"><a href="#线程池中的ctl" class="headerlink" title="线程池中的ctl"></a>线程池中的ctl</h5><p>ctl是线程池的main control state。它是一个封装了两个fields的atomic integer，分别是：</p>
+<ol>
+<li>workerCount: effefctive number of threads。在ctl的低29位。</li>
+<li>runState: 线程池的状态。在ctl的高三位。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="ck8x7no8u0000v8w2b79jarlx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          InnoDB体系架构
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">梯度下降法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hexo%E5%88%86%E7%B1%BB/">hexo分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E6%99%AE/">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E9%83%A8%E7%BD%B2/" rel="tag">hexo部署</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE/" rel="tag">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/hexo%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">hexo部署</a> <a href="/tags/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/19/InnoDB%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7/">leetcode 哈希表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">pandas</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/20/InnoDB%E7%B4%A2%E5%BC%95/">InnoDB存储引擎 B+树索引</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/">InnoDB体系架构</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

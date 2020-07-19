@@ -7,19 +7,17 @@
   
   <title>梯度下降法 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="梯度下降法及优化梯度下降法目的是最小化目标函数J(θ)，其中θ是模型的参数。通过把参数沿着目标函数的梯度的反方向$-∇_{\theta}J(\theta)$进行更新。 根据每次每次有多少数据来更新参数，分为有三种梯度下降法。我们往往要在参数的精度和每次更新的速度中做一个权衡。">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="梯度下降法">
 <meta property="og:url" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="梯度下降法及优化梯度下降法目的是最小化目标函数J(θ)，其中θ是模型的参数。通过把参数沿着目标函数的梯度的反方向$-∇_{\theta}J(\theta)$进行更新。 根据每次每次有多少数据来更新参数，分为有三种梯度下降法。我们往往要在参数的精度和每次更新的速度中做一个权衡。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5CSGD%E9%9C%87%E8%8D%A1.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5C%E6%97%A0%E5%8A%A8%E9%87%8F.png">
-<meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5C%E6%9C%89%E5%8A%A8%E9%87%8F.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5C%E6%9C%89%E5%8A%A8%E9%87%8F.png%5C">
 <meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5CNAG.png">
 <meta property="article:published_time" content="2020-04-03T13:59:11.000Z">
-<meta property="article:modified_time" content="2020-04-12T14:35:14.213Z">
+<meta property="article:modified_time" content="2020-07-18T16:31:34.505Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5CSGD%E9%9C%87%E8%8D%A1.png">
@@ -93,9 +91,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="梯度下降法及优化"><a href="#梯度下降法及优化" class="headerlink" title="梯度下降法及优化"></a>梯度下降法及优化</h3><p>梯度下降法目的是最小化目标函数J(θ)，其中θ是模型的参数。通过把参数沿着目标函数的梯度的反方向$-∇_{\theta}J(\theta)$<br>进行更新。</p>
-<p>根据每次每次有多少数据来更新参数，分为有三种梯度下降法。我们往往要在参数的精度和每次更新的速度中做一个权衡。<br></p>
+        <br>
 <a id="more"></a>
+### 梯度下降法及优化
+梯度下降法目的是最小化目标函数J(θ)，其中θ是模型的参数。通过把参数沿着目标函数的梯度的反方向$-∇_{\theta}J(\theta)$
+进行更新。
+
+<p>根据每次每次有多少数据来更新参数，分为有三种梯度下降法。我们往往要在参数的精度和每次更新的速度中做一个权衡。<br></p>
+<!--more-->
 <br>
 
 <h4 id="批梯度下降法-BGD"><a href="#批梯度下降法-BGD" class="headerlink" title="批梯度下降法(BGD)"></a>批梯度下降法(BGD)</h4><p>每次用所有训练数据来计算目标函数的梯度，从而进行一次参数更新。<br>$\theta = \theta - \eta \cdot \nabla_\theta J( \theta)$<br>优点： 对于凸函数，一定可以收敛到全局最小值；对于非凸函数，可以收敛到局部最小值。<br><br>缺点：</p>
@@ -154,8 +157,8 @@
 <blockquote>
 <p>一般$\gamma$被设置为0.9左右。</p>
 </blockquote>
-<p><img src="%5Cimages%5C%E6%97%A0%E5%8A%A8%E9%87%8F.png" alt="upload successful"><br>参数的轨迹一般都是上下震荡的，如上图所示。他们的向量和在水平方向上会被放大，竖直方向上会被抵消。由此动量发可以抑制震荡，并且逐渐加速逼近最小值的速度，两幅图学习率相同。如下图所示。<br><img src="%5Cimages%5C%E6%9C%89%E5%8A%A8%E9%87%8F.png" alt="upload successful"><br><br><br></p>
-<h5 id="Nesterov-accelerated-gradient-NAG"><a href="#Nesterov-accelerated-gradient-NAG" class="headerlink" title="Nesterov accelerated gradient (NAG)"></a>Nesterov accelerated gradient (NAG)</h5><p>$#nbsp$NAG是动量法的改进版。<br><br>在动量法中,$\theta$每次在t-1的位置上走$\gamma v_{t-1}$后，再沿着t-1位置的梯度($ \nabla_{\theta}J(\theta_{t-1})$)走一定的步长。那么，既然要先走到了$\theta_{t-1} - \gamma v_{t-1}$的位置，为何还要用t-1位置的梯度呢，为何不直接用新位置$\theta_{t-1} - \gamma v_{t-1}$的梯度呢？<br>于是NAG就做了这个改动。先跳到之前积累的梯度（动量）的方向，然后计算当前的梯度进行一个修正。</p>
+<p><img src="%5Cimages%5C%E6%97%A0%E5%8A%A8%E9%87%8F.png" alt="upload successful"><br>参数的轨迹一般都是上下震荡的，如上图所示。他们的向量和在水平方向上会被放大，竖直方向上会被抵消。由此动量发可以抑制震荡，并且逐渐加速逼近最小值的速度，两幅图学习率相同。如下图所示。<br><img src="%5Cimages%5C%E6%9C%89%E5%8A%A8%E9%87%8F.png%5C" alt="upload successful"><br><br><br></p>
+<h5 id="Nesterov-accelerated-gradient-NAG"><a href="#Nesterov-accelerated-gradient-NAG" class="headerlink" title="Nesterov accelerated gradient (NAG)"></a>Nesterov accelerated gradient (NAG)</h5><p>NAG是动量法的改进版。<br><br>在动量法中,$\theta$每次在t-1的位置上走$\gamma v_{t-1}$后，再沿着t-1位置的梯度($ \nabla_{\theta}J(\theta_{t-1})$)走一定的步长。那么，既然要先走到了$\theta_{t-1} - \gamma v_{t-1}$的位置，为何还要用t-1位置的梯度呢，为何不直接用新位置$\theta_{t-1} - \gamma v_{t-1}$的梯度呢？<br>于是NAG就做了这个改动。先跳到之前积累的梯度（动量）的方向，然后计算当前的梯度进行一个修正。</p>
 <p>$\begin{align}<br>\begin{split}<br>v_t &amp;= \gamma v_{t-1} + \eta \nabla_\theta J( \theta - \gamma v_{t-1} ) \<br>\theta &amp;= \theta - v_t<br>\end{split}<br>\end{align}$</p>
 <blockquote>
 <p>$\gamma$通常设在0.9左右。</p>
@@ -174,11 +177,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/04/12/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Hello World
+          线程池
         
       </div>
     </a>
@@ -231,7 +234,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
     </div>
   </div>
 
@@ -244,23 +247,23 @@
       <ul>
         
           <li>
-            <a href="/2020/04/12/hello-world/">Hello World</a>
+            <a href="/2020/07/19/InnoDB%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7/">leetcode 哈希表</a>
           </li>
         
           <li>
-            <a href="/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/">梯度下降法</a>
+            <a href="/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">pandas</a>
           </li>
         
           <li>
-            <a href="/2020/02/11/Python%20Argparse/">Python Argparse</a>
+            <a href="/2020/04/20/InnoDB%E7%B4%A2%E5%BC%95/">InnoDB存储引擎 B+树索引</a>
           </li>
         
           <li>
-            <a href="/2020/02/09/%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2%EF%BC%8C%E9%83%A8%E7%BD%B2%E8%87%B3GitHub/">搭建hexo博客，部署至GitHub</a>
+            <a href="/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/">InnoDB体系架构</a>
           </li>
         
           <li>
-            <a href="/2020/02/09/Python%E5%86%85%E9%83%A8%E5%87%BD%E6%95%B0/">Python 内部函数</a>
+            <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
           </li>
         
       </ul>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>pandas | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="pandas">
+<meta property="og:url" content="http://yoursite.com/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-03T13:59:11.000Z">
+<meta property="article:modified_time" content="2020-07-18T16:30:41.597Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-pandas简单教程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/" class="article-date">
+  <time datetime="2020-07-03T13:59:11.000Z" itemprop="datePublished">2020-07-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      pandas
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <br>
+<a id="more"></a>
+导入pandas
+
+<p><code>import pandas as pd</code></p>
+<p>pandas有两个核心对象： <strong>DataFrame</strong> 和<strong>Series</strong>。</p>
+<h3 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h3><p>​      <code>pd.DataFrame({&#39;Yes&#39;: [50, 21], &#39;No&#39;: [131, 2]})</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Yes</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>50</td>
+<td>131</td>
+</tr>
+<tr>
+<td>1</td>
+<td>21</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>DataFrame不仅可以存放integer。</p>
+<p><code>pd.DataFrame({&#39;Bob&#39;: [&#39;I liked it.&#39;, &#39;It was awful.&#39;], &#39;Sue&#39;: [&#39;Pretty good.&#39;, &#39;Bland.&#39;]})</code></p>
+<p>DataFrame是一个dictionary-list constructor，他给列分配值，序号从0开始每次+1。</p>
+<p>我们也可以给每行取名。  通过<strong>Index</strong>属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pd.DataFrame(&#123;&#39;Bob&#39;: [&#39;I liked it.&#39;, &#39;It was awful.&#39;], </span><br><span class="line">              &#39;Sue&#39;: [&#39;Pretty good.&#39;, &#39;Bland.&#39;]&#125;,</span><br><span class="line">             index&#x3D;[&#39;Product A&#39;, &#39;Product B&#39;])</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Series"><a href="#Series" class="headerlink" title="Series"></a>Series</h3><p>Series是一组数值。DataFrame是一个表格，Serirs是一个列表。</p>
+<p><code>pd.Series([1, 2, 3, 4, 5])</code></p>
+<p>同样可以用<strong>Index</strong>给行命名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.Series([30, 35, 40], index&#x3D;[&#39;2015 Sales&#39;, &#39;2016 Sales&#39;, &#39;2017 Sales&#39;], name&#x3D;&#39;Product A&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="从csv文件中读取数据"><a href="#从csv文件中读取数据" class="headerlink" title="从csv文件中读取数据"></a>从csv文件中读取数据</h5><p><code>reviews = pd.read_csv(&quot;../input/wine-reviews/winemag-data-130k-v2.csv&quot;)</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">Unnamed: 0</th>
+<th align="left">country</th>
+<th align="left">description</th>
+<th align="left">designation</th>
+<th align="left">points</th>
+<th align="left">price</th>
+<th align="left">province</th>
+<th align="left">region_1</th>
+<th align="left">region_2</th>
+<th align="left">taster_name</th>
+<th align="left">taster_twitter_handle</th>
+<th align="left">title</th>
+<th align="left">variety</th>
+<th align="left">winery</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">Italy</td>
+<td align="left">Aromas include tropical fruit, broom, brimston…</td>
+<td align="left">Vulkà Bianco</td>
+<td align="left">87</td>
+<td align="left">NaN</td>
+<td align="left">Sicily &amp; Sardinia</td>
+<td align="left">Etna</td>
+<td align="left">NaN</td>
+<td align="left">Kerin O’Keefe</td>
+<td align="left">@kerinokeefe</td>
+<td align="left">Nicosia 2013 Vulkà Bianco (Etna)</td>
+<td align="left">White Blend</td>
+<td>Nicosia</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">Portugal</td>
+<td align="left">This is ripe and fruity, a wine that is smooth…</td>
+<td align="left">Avidagos</td>
+<td align="left">87</td>
+<td align="left">15.0</td>
+<td align="left">Douro</td>
+<td align="left">NaN</td>
+<td align="left">NaN</td>
+<td align="left">Roger Voss</td>
+<td align="left">@vossroger</td>
+<td align="left">Quinta dos Avidagos 2011 Avidagos Red (Douro)</td>
+<td align="left">Portuguese Red</td>
+<td>Quinta dos Avidagos</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">2</td>
+<td align="left">US</td>
+<td align="left">Tart and snappy, the flavors of lime flesh and…</td>
+<td align="left">NaN</td>
+<td align="left">87</td>
+<td align="left">14.0</td>
+<td align="left">Oregon</td>
+<td align="left">Willamette Valley</td>
+<td align="left">Willamette Valley</td>
+<td align="left">Paul Gregutt</td>
+<td align="left">@paulgwine</td>
+<td align="left">Rainstorm 2013 Pinot Gris (Willamette Valley)</td>
+<td align="left">Pinot Gris</td>
+<td>Rainstorm</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">3</td>
+<td align="left">US</td>
+<td align="left">Pineapple rind, lemon pith and orange blossom …</td>
+<td align="left">Reserve Late Harvest</td>
+<td align="left">87</td>
+<td align="left">13.0</td>
+<td align="left">Michigan</td>
+<td align="left">Lake Michigan Shore</td>
+<td align="left">NaN</td>
+<td align="left">Alexander Peartree</td>
+<td align="left">NaN</td>
+<td align="left">St. Julian 2013 Reserve Late Harvest Riesling …</td>
+<td align="left">Riesling</td>
+<td>St. Julian</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">4</td>
+<td align="left">US</td>
+<td align="left">Much like the regular bottling from 2012, this…</td>
+<td align="left">Vintner’s Reserve Wild Child Block</td>
+<td align="left">87</td>
+<td align="left">65.0</td>
+<td align="left">Oregon</td>
+<td align="left">Willamette Valley</td>
+<td align="left">Willamette Valley</td>
+<td align="left">Paul Gregutt</td>
+<td align="left">@paulgwine</td>
+<td align="left">Sweet Cheeks 2012 Vintner’s Reserve Wild Child…</td>
+<td align="left">Pinot Noir</td>
+<td>Sweet Cheeks</td>
+</tr>
+</tbody></table>
+<p>读取文件中的前五行：</p>
+<p><code>reviews.head()</code></p>
+<p>获取文件中的某一列：    (country是期中一列的名字)</p>
+<p>reviews.country</p>
+<p>或者</p>
+<p><code>reviews[&#39;country&#39;]</code></p>
+<h3 id="pands-中的indexing"><a href="#pands-中的indexing" class="headerlink" title="pands 中的indexing"></a>pands 中的indexing</h3><h4 id="1-iloc"><a href="#1-iloc" class="headerlink" title="1. iloc"></a>1. iloc</h4><p>​             index-based selection, 就是根据数值位置选取数据。</p>
+<p>​             选取第一行：  <code>reviews.iloc[0]</code></p>
+<p>​             选取第一列： <code>reviews.iloc[:, 0]</code></p>
+<p>​             选取第一列的第2,3行： <code>reviews.iloc[1:3, 0]</code> 或者  <code>reviews.iloc[[0, 1, 2], 0]</code></p>
+<h4 id="2-loc"><a href="#2-loc" class="headerlink" title="2.loc"></a>2.loc</h4><p>​               label-based selection</p>
+<p>​               第一行中country对应的值： <code>reviews.loc[0, &#39;country&#39;]</code></p>
+<p>`</p>
+<p><code>iloc</code> uses the Python stdlib indexing scheme, where the first element of the range is included and the last one excluded. So <code>0:10</code> will select entries <code>0,...,9</code>. <code>loc</code>, meanwhile, indexes inclusively. So <code>0:10</code> will select entries <code>0,...,10</code>.</p>
+<p><code>set_index()</code>方法可以执行某一列作为索引列。</p>
+<p>选取reviews中country是Italy的行：   <code>reviews.loc[reviews.country == &#39;Italy&#39;]</code></p>
+<p>选取reviews中country是Italy并且points大于90的行： <code>reviews.loc[(reviews.country == &#39;Italy&#39;) &amp; (reviews.points &gt;= 90)]</code></p>
+<p>选取reviews中country是Italy或者points大于90的行： <code>reviews.loc[(reviews.country == &#39;Italy&#39;) | (reviews.points &gt;= 90)]</code></p>
+<p><code>isin</code></p>
+<p>选取country是Italy或者France的行： <code>reviews.loc[reviews.country.isin([&#39;Italy&#39;, &#39;France&#39;])]</code></p>
+<p><code>isnull</code>    和   <code>notnull</code></p>
+<p>选择price不是null的行： <code>reviews.loc[reviews.price.notnull()]</code></p>
+<h5 id="分配值"><a href="#分配值" class="headerlink" title="分配值"></a>分配值</h5><p>给一列分配一个值： <code>reviews[&#39;critic&#39;] = &#39;everyone&#39;</code></p>
+<p>给一列分配不通知： <code>reviews[&#39;index_backwards&#39;] = range(len(reviews), 0, -1)</code></p>
+<p><code>reviews.points.describe()</code> 会给出这一列的一些数据，比如count, mean, max…</p>
+<p><code>unique()</code> 方法给出某一列所有不重复的元素。</p>
+<p><code>value_counts()</code> 给出某一列所有元素和各自出现的次数。</p>
+<p>###　Ｍａｐｓ</p>
+<p>１.　<code>ｍａｐ（）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">review＿points_mean &#x3D; reviews.points.mean()</span><br><span class="line">reviews.points.map(lambda p: p - review_points_mean)</span><br></pre></td></tr></table></figure>
+
+<p>对ｒｅｖｉｅｗ表中每个ｐｏｉｎｔ都减去其平均数。</p>
+<p>２．　<code>ａｐｐｌｙ（）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def remean_points(row):</span><br><span class="line">    row.points &#x3D; row.points - review_points_mean</span><br><span class="line">    return row</span><br><span class="line"></span><br><span class="line">reviews.apply(remean_points, axis&#x3D;&#39;columns&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><code>map()</code>和<code>apply()</code>都返回一个新的Series和DataFrame，不会改变原始输入数据。</li>
+</ul>
+<h3 id="Grouping"><a href="#Grouping" class="headerlink" title="###　Ｇｒｏｕｐｉｎｇ"></a>###　Ｇｒｏｕｐｉｎｇ</h3><p><code>reviews.groupby(&#39;points&#39;).points.count()</code>　</p>
+<p>输出：　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">points</span><br><span class="line">80     397</span><br><span class="line">81     692</span><br><span class="line">      ... </span><br><span class="line">99      33</span><br><span class="line">100     19</span><br><span class="line">Name: points, Length: 21, dtype: int64</span><br></pre></td></tr></table></figure>
+
+<p>效果等同于<code>ｖａｌｕｅ＿ｃｏｕｎｔ</code></p>
+<p>每个ｐｏｉｎｔｓ（度数）里价格最爱的酒：　　<code>reviews.groupby(&#39;points&#39;).price.min()</code></p>
+<p>另一个ｇｒｏｕｐｉｎｇ方法：<code>ｅｇｇ（）</code></p>
+<p><code>ｅｇｇ（）</code>可以同时对ＤａｔａＦｒａｍｅ运行多个ｆｕｎｃｔｉｏｎｓ。</p>
+<p>比如：　<code>reviews.groupby([&#39;country&#39;]).price.agg([len, min, max])</code></p>
+<p>ｏｕｔｐｕｔ：　</p>
+<table>
+<thead>
+<tr>
+<th align="left">len</th>
+<th align="left">min</th>
+<th align="left">max</th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">country</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Argentina</td>
+<td align="left">3800.0</td>
+<td align="left">4.0</td>
+<td align="left">230.0</td>
+</tr>
+<tr>
+<td align="left">Armenia</td>
+<td align="left">2.0</td>
+<td align="left">14.0</td>
+<td align="left">15.0</td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+</tr>
+<tr>
+<td align="left">Ukraine</td>
+<td align="left">14.0</td>
+<td align="left">6.0</td>
+<td align="left">13.0</td>
+</tr>
+<tr>
+<td align="left">Uruguay</td>
+<td align="left">109.0</td>
+<td align="left">10.0</td>
+<td align="left">130.0</td>
+</tr>
+</tbody></table>
+<h3 id="Sorting"><a href="#Sorting" class="headerlink" title="Sorting"></a>Sorting</h3><p><code>sort_values(by=?)</code></p>
+<p>for example: `countries_reviewed.sort_values(by=’len’)</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">country</th>
+<th align="left">province</th>
+<th align="left">len</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">179</td>
+<td align="left">Greece</td>
+<td align="left">Muscat of Kefallonian</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">192</td>
+<td align="left">Greece</td>
+<td align="left">Sterea Ellada</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+</tr>
+<tr>
+<td align="left">415</td>
+<td align="left">US</td>
+<td align="left">Washington</td>
+<td align="left">8639</td>
+</tr>
+<tr>
+<td align="left">392</td>
+<td align="left">US</td>
+<td align="left">California</td>
+<td align="left">36247</td>
+</tr>
+</tbody></table>
+<p>425 rows × 3 columns</p>
+<p><code>sort_values()</code>默认是按升序排列，如果想按降序排列，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">countries_reviewed.sort_values(by&#x3D;&#39;len&#39;, ascending&#x3D;False)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>sort_index()</code>： 按照index排序</p>
+<p>by的属性也可以不止一个，先按第一个属性排序，如果第一个属性相同，就按照第二个，以此类推。</p>
+<p><code>countries_reviewed.sort_values(by=[&#39;country&#39;, &#39;len&#39;])</code></p>
+<h3 id="Dtypes"><a href="#Dtypes" class="headerlink" title="Dtypes"></a>Dtypes</h3><p>DataFrame的某一列或Series的数据类型(data type)叫<strong>dtype</strong>。</p>
+<ul>
+<li><p>可以用<code>dtype</code>属性获取某一列的数据类型.</p>
+<p>​    <code>reviews.price.dtype</code></p>
+<p>​    output: <code>dtype(&#39;float64&#39;)</code></p>
+</li>
+<li><p>可以用<code>dtypes</code>获取DataFrame每一列的数据类型。</p>
+</li>
+</ul>
+<p>​               <code>reviews.dtypes</code></p>
+<p>​               output： </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">country        object</span><br><span class="line">description    object</span><br><span class="line">                ...  </span><br><span class="line">variety        object</span><br><span class="line">winery         object</span><br><span class="line">Length: <span class="number">13</span>, dtype: object</span><br></pre></td></tr></table></figure>
+
+
+
+<p>float64: 64位浮点数(floating point)</p>
+<p>int64:     64位整形数。</p>
+<p>由字符串组成的列没有自己的数据类型，他们都被定义为 <strong>object</strong>类型。</p>
+<p><code>astype()</code>方法把一种数据类型转换成另一种数据类型，当这种转换存在的时候。</p>
+<p><code>reviews.points.astype(&#39;float64&#39;)</code> </p>
+<ul>
+<li>points属性列本来是int64，被转换成了float64.</li>
+</ul>
+<p>index也有自己的<strong>dtype</strong>。</p>
+<p>​     <code>reviews.index.dtype</code></p>
+<p>​     output: <code>dtype(&#39;int64&#39;)</code></p>
+<p>Pandas也支持一些外来数据类型，比如categorical data和timeseries data。</p>
+<h3 id="Missing-data"><a href="#Missing-data" class="headerlink" title="Missing data"></a>Missing data</h3><p>没有值的entry被定义为<code>NaN</code>，“Not a Number”的简写。 由于技术原因，<code>NaN</code>是<strong>float64</strong>类型。</p>
+<p><code>pd.isnull()</code></p>
+<p>​      <code>reviews[pd.isnull(reviews.country)]</code> ：获取country属性没有值的行。</p>
+<p><code>fillna()</code></p>
+<pre><code>1. 可以把每一个NaN定义为**Unknown**。
+2. 给每一个NaN赋值为后面第一个非NaN的值。 这种策略叫 **backfill strategy**。</code></pre><p>改变已经存在值。</p>
+<p><code>replace()</code></p>
+<p>​    <code>reviews.taster_twitter_handle.replace(&quot;@kerinokeefe&quot;, &quot;@kerino&quot;)</code></p>
+<p>​     把taster_twitter_handle属性中的@kerinokeefe全部变成@kerino。</p>
+<h3 id="Renaming"><a href="#Renaming" class="headerlink" title="Renaming"></a>Renaming</h3><p><code>rename()</code></p>
+<p>​    改变index name或者column name。</p>
+<p>​            <code>reviews.rename(columns={&#39;points&#39;: &#39;score&#39;})</code></p>
+<p>​            把points这一列的名字变成score。</p>
+<p>​    如果要改变index name,   格式 <code>rename(index={from, to})</code></p>
+<p>​            <code>reviews.rename(index={0: &#39;firstEntry&#39;, 1: &#39;secondEntry&#39;})</code></p>
+<p>   <code>reviews.rename_axis(&quot;wines&quot;, axis=&#39;rows&#39;).rename_axis(&quot;fields&quot;, axis=&#39;columns&#39;)</code></p>
+<p>​           </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name_axis(&quot;wines&quot;, axis&#x3D;&#39;rows&#39;).rename_axis(&quot;fields&quot;, axis&#x3D;&#39;columns&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>Out[4]:</p>
+<table>
+<thead>
+<tr>
+<th align="left">fields</th>
+<th align="left">country</th>
+<th align="left">description</th>
+<th align="left">designation</th>
+<th align="left">points</th>
+<th align="left">price</th>
+<th align="left">province</th>
+<th align="left">region_1</th>
+<th align="left">region_2</th>
+<th align="left">taster_name</th>
+<th align="left">taster_twitter_handle</th>
+<th align="left">title</th>
+<th align="left">variety</th>
+<th align="left">winery</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">wines</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">0</td>
+<td align="left">Italy</td>
+<td align="left">Aromas include tropical fruit, broom, brimston…</td>
+<td align="left">Vulkà Bianco</td>
+<td align="left">87</td>
+<td align="left">NaN</td>
+<td align="left">Sicily &amp; Sardinia</td>
+<td align="left">Etna</td>
+<td align="left">NaN</td>
+<td align="left">Kerin O’Keefe</td>
+<td align="left">@kerinokeefe</td>
+<td align="left">Nicosia 2013 Vulkà Bianco (Etna)</td>
+<td align="left">White Blend</td>
+<td align="left">Nicosia</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">Portugal</td>
+<td align="left">This is ripe and fruity, a wine that is smooth…</td>
+<td align="left">Avidagos</td>
+<td align="left">87</td>
+<td align="left">15.0</td>
+<td align="left">Douro</td>
+<td align="left">NaN</td>
+<td align="left">NaN</td>
+<td align="left">Roger Voss</td>
+<td align="left">@vossroger</td>
+<td align="left">Quinta dos Avidagos 2011 Avidagos Red (Douro)</td>
+<td align="left">Portuguese Red</td>
+<td align="left">Quinta dos Avidagos</td>
+</tr>
+<tr>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+<td align="left">…</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">129970</td>
+<td align="left">France</td>
+<td align="left">Big, rich and off-dry, this is powered by inte…</td>
+<td align="left">Lieu-dit Harth Cuvée Caroline</td>
+<td align="left">90</td>
+<td align="left">21.0</td>
+<td align="left">Alsace</td>
+<td align="left">Alsace</td>
+<td align="left">NaN</td>
+<td align="left">Roger Voss</td>
+<td align="left">@vossroger</td>
+<td align="left">Domaine Schoffit 2012 Lieu-dit Harth Cuvée Car…</td>
+<td align="left">Gewürztraminer</td>
+<td align="left">Domaine Schoffit</td>
+</tr>
+</tbody></table>
+<p>129971 rows × 13 columns</p>
+<h3 id="Combing"><a href="#Combing" class="headerlink" title="Combing"></a>Combing</h3><p>我们有时会需要结合不同的DataFrame或者Series，pandas有三个核心方法来做这件事。</p>
+<p>分别是 <code>concat()</code> ，<code>join()</code>， <code>merge()</code>  </p>
+<p>大多数 <code>merge()</code>能做的 <code>join()</code>都可以做，所以接下来主要介绍前两种。</p>
+<p><code>concat()</code></p>
+<p>​    两个列的数量和名字都相同的DataFrame或Series，上下叠在一起。</p>
+<p><code>join()</code></p>
+<p>​    把有相同index的DataFrame结合起来。</p>
+<p>​    </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/" data-id="ckcrumd0s0000m8w22ppv3y0o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/19/InnoDB%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          leetcode 哈希表
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/20/InnoDB%E7%B4%A2%E5%BC%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">InnoDB存储引擎 B+树索引</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hexo%E5%88%86%E7%B1%BB/">hexo分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E6%99%AE/">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E9%83%A8%E7%BD%B2/" rel="tag">hexo部署</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE/" rel="tag">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/hexo%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">hexo部署</a> <a href="/tags/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/19/InnoDB%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7/">leetcode 哈希表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">pandas</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/20/InnoDB%E7%B4%A2%E5%BC%95/">InnoDB存储引擎 B+树索引</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/">InnoDB体系架构</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

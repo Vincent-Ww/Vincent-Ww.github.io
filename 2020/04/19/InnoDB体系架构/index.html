@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>InnoDB体系架构 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="InnoDB体系架构">
+<meta property="og:url" content="http://yoursite.com/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/%5Cimages%5Cpasted-5.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-6.png">
+<meta property="article:published_time" content="2020-04-19T11:14:00.000Z">
+<meta property="article:modified_time" content="2020-07-18T16:30:36.951Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/%5Cimages%5Cpasted-5.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-InnoDB体系架构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/" class="article-date">
+  <time datetime="2020-04-19T11:14:00.000Z" itemprop="datePublished">2020-04-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      InnoDB体系架构
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <br>
+<a id="more"></a>
+&emsp;&emsp;InnoDB存储引擎是面向在线事务处理（**OLTP**），具有**行锁设计，支持外键，非锁定读**等特点。现在是MySQL默认的存储引擎。InnoBD具有高并发性，通过**MCVV**来实现。具有**插入缓冲，二次写，自适应哈希索引，预读**等功能。InnoDB采用**聚集**的方式来存储表中数据。<br>
+<br>
+&emsp;&emsp;大致了解了innoBD后，我们回归正题，好好看下它的踢西甲爱狗。<br>InnoDB存储引擎的体系架构主要有两部构成：
+1. 由多个内存块组成的*内存池*
+2. 多个*后台线程*
+![](\\images\pasted-4.png)
+<br>
+
+<h1 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h1><p>InooDB的内存主要分为三个部分：</p>
+<ol>
+<li><a href=" #1">缓冲池 innodb_buffer_pool</a></li>
+<li><a href=" #2">重做日志缓冲  redo log_buffer</a></li>
+<li>额外内存缓冲 innodb_additional_mem_pool_size<br><img src="%5Cimages%5Cpasted-5.png" alt=""><br><font id = 1></font><h3 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h3><font size=4, face="微软雅黑">为何要缓冲池？</font><br><br>&emsp;&emsp;InnoDB存储引擎是<strong>基于磁盘存储</strong>的。但是由于磁盘速度远远小于CPU的速度，就需要使用缓冲技术来提高数据库的整体性能。<br><br><br><font size=4, face="微软雅黑">缓冲池如何运作？</font><br><br>&emsp;&emsp;缓冲池是一块内存区域。在数据库进行读取页的操作时，首先将把从硬盘读到的页存放至（FIX）缓冲池中。下一次在读次页，若页还在缓冲池中，就直接从缓冲池读取该页。<br><br>&emsp;&emsp;所以对于数据库中页的修改操作，是修改在缓冲池中的页，然后再以一定的频率刷到磁盘上。（刷到磁盘上是通过<a href=" #3"><strong>Checkpoint</strong></a>机制，将在下面介绍）<br><br>
+<font size=4, face="微软雅黑">缓冲池的大小</font><br>
+&emsp;&emsp;很明显，缓存池的大小会直接影响到数据库的性能。可以通过`innodb_buffer_pool_size`来设置缓冲池的大小。<br>
+<br>
+<font size=4, face="微软雅黑">缓冲池的构成</font><br>
+&emsp;&emsp;缓存池中不仅仅有数据页和索引页，还有undo页，插入缓冲，锁信息，数据字典信息，自适应哈希索引等。InnoDB有多个缓冲池实例，每个页根据哈希值尽量均匀分配到不同缓冲池实例中，通`innobd_buffer_pool_instances`来设置缓冲池实例的个数。通过INNOBD_BUFFER_POOL_STATUS表来观察缓冲的状态。<br>
+<br>
+<font size=4, face="微软雅黑">如何对缓冲池所对应的内存进行管理？</font><br>
+&emsp;&emsp;大多数情况下，数据库中的缓冲池是通过**LRU Latest recent used**算法来管理的。在LRU列表中，使用越频繁的页越靠近表的前端。当缓冲池不能存放新都区的页时，则释放LRU队列尾端的页。<br>
+<br>
+<font size=4, face="微软雅黑">InnoDB存储引擎的改进版LRU算法</font><br>
+&emsp;&emsp;在InnoDB中，缓冲池中页的默认大小是*16KB*，就是使用LRU算法来管理缓冲池。与传统LRU不同的是，InnoDB中的LRU算法有一个**midpoint**位置。新读到的页是放到LRU列表的midpoint位置上，而不是放到首部。midpoint的位置有参数`innobd_old_blocks_pct`控制。<br>
+所以LRU列表被分为两个子列表，分别是头部的年轻页的子列表和尾部的旧页的子列表。(如下图所示)<br>
+<img src="\images\pasted-6.png" width = "300" height = "200" alt="InnoDB的LRU列表" align=center />
+
+</li>
+</ol>
+<p>访问旧子列表中的页面使其“年轻”，将其移动到新子列表的头部。如果页面被读取是因为 user-initiated 操作需要该页面，则第一次访问会立即发生，页面会变得年轻。如果由于 read-ahead 操作而读取了页面，则第一次访问不会立即发生，并且可能在页面被驱逐之前根本不会发生。<br><br>当数据库运行时，缓冲池中的页面通过移动到列表尾部而不会被“访问”。新旧子列表中的页面随着其他页面的变化而变旧。旧子列表中的页面也会随着页面插入中点而老化。最终，仍然未使用的页面到达旧子列表的尾部并被逐出。<br><br><br><br><font size=4 face="微软雅黑">为何InnoDB不使用传统LRU算法？</font><br><br>&emsp;&emsp;比如扫描操作，也访问许多页，甚至所有页，但扫描操作访问的页只在这次操作中需要，并不是活跃的热点数据。如果用传统的LRU算法，真正的活跃页就可能被从LRU列表中移除。<br><br><code>innodb_old_blocks_time</code>控制页加到midpoint后多久后被加到LRU列表首部。<br><br><br><br><font size=4 face="微软雅黑">unzip_LRU列表</font><br><br>&emsp;&emsp;InnoDB支持<strong>压缩页</strong>功能，即原本16KB的页可以压缩到1,2,3,8KB。对于非16KB的页，放在unzip_LRU列表和LRU列表。<br><br><br><br><font size=4 face="微软雅黑">Flush列表</font><br><br>&emsp;&emsp;Flush列表中存放脏页。数据库通过CheckPoint机制将脏页刷到磁盘。</p>
+<p><font id=2></font></p>
+<h3 id="重做日志缓冲"><a href="#重做日志缓冲" class="headerlink" title="重做日志缓冲"></a>重做日志缓冲</h3><p><font size=4 face="微软雅黑">为何需要重做日志缓冲？如何运作？</font><br><br>&emsp;&emsp;如果在缓冲池将新版本刷新到磁盘过程中发生了宕机，数据就无法恢复。为了避免数据丢失，采用<strong>Write Ahead Log</strong>策略，即当事务提交时，先写重做日志，再修改页。若发生宕机导致数据丢失，可以通过重做日志完成数据的回复。<br>&emsp;&emsp;重做日志缓冲一般不需要太大，因为一般每一秒都会将重做日志刷新到处于磁盘的重做日志文件，所以重做日志缓冲足够容纳一秒内的数据就可以了。大小可以通过<code>innodb_log_buffer_size</code>控制。<br>一下三种情况会把重做日志缓冲中内容刷新到重做日志文件中。</p>
+<ol>
+<li>Master Thread每一秒执行一次。</li>
+<li>每个事务提交时。</li>
+<li>当重做日志缓冲池剩余空间小于1/2时。  </li>
+</ol>
+<p>InnoDB先将<strong>重做日志</strong>放入缓冲区，再按照一定的频率将其刷到<strong>重做日志文件</strong>。</p>
+<p><font id = 3></font></p>
+<h2 id="CheckPoint技术"><a href="#CheckPoint技术" class="headerlink" title="CheckPoint技术"></a>CheckPoint技术</h2><p>当LRU列表中页被修改后，该页称为<strong>脏页</strong>（缓冲池与磁盘不一致的页），通过CheckPoint机制把脏页刷新到磁盘上。<br><br><br>&emsp;&emsp;如果在缓冲池将新版本刷新到磁盘过程中发生了宕机，数据就无法恢复。为了避免数据丢失，采用<strong>Write Ahead Log</strong>策略，即当事务提交时，先写重做日志，再修改页。若发生宕机导致数据丢失，可以通过重做日志完成数据的回复。 <br><br><br><br>CheckPoint技术主要为了解决一下三个问题：</p>
+<ol>
+<li>缩短数据库的恢复时间。</li>
+<li>缓冲池不够用时，刷新脏页。</li>
+<li>重做日志不可用时，刷新脏页。  </li>
+</ol>
+<p>1：  数据库发生宕机时，数据库不需要重做所有的日志，因为checkpoint之前的页都已经刷新到了磁盘。<br>2:   当缓冲池不够用的时，LRU算法会溢出使用频率最少的页，若次页为脏页，则强制Checkpoint。<br><br><br>InnoDB中，有两种Checkpoint。</p>
+<ol>
+<li>Sharp Checkpoint： 数据库关闭时使用。将所有的脏页都刷新回磁盘。</li>
+<li>Fuzzy Checkpoint:  刷新一部分脏页。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/" data-id="ck96yaj0j0000wkw2f23yhcag" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/20/InnoDB%E7%B4%A2%E5%BC%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          InnoDB存储引擎 B+树索引
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">线程池</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hexo%E5%88%86%E7%B1%BB/">hexo分类</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A7%91%E6%99%AE/">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo%E9%83%A8%E7%BD%B2/" rel="tag">hexo部署</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E6%99%AE/" rel="tag">科普</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/hexo%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">hexo部署</a> <a href="/tags/%E7%A7%91%E6%99%AE/" style="font-size: 10px;">科普</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/19/InnoDB%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7/">leetcode 哈希表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/03/pandas%E7%AE%80%E5%8D%95%E6%95%99%E7%A8%8B/">pandas</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/20/InnoDB%E7%B4%A2%E5%BC%95/">InnoDB存储引擎 B+树索引</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/19/InnoDB%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/">InnoDB体系架构</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/13/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
