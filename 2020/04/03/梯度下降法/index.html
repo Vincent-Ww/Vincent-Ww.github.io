@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5C%E6%9C%89%E5%8A%A8%E9%87%8F.png%5C">
 <meta property="og:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5CNAG.png">
 <meta property="article:published_time" content="2020-04-03T13:59:11.000Z">
-<meta property="article:modified_time" content="2020-07-18T16:31:34.505Z">
+<meta property="article:modified_time" content="2020-07-23T07:56:51.962Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/04/03/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95/%5Cimages%5CSGD%E9%9C%87%E8%8D%A1.png">
@@ -107,10 +107,25 @@
 <li>训练数据很大的话，需要很多内存。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for i in range(nb_epochs):</span><br><span class="line">  params_grad &#x3D; evaluate_gradient(loss_function, data, params)</span><br><span class="line">  params &#x3D; params - learning_rate * params_grad</span><br></pre></td></tr></table></figure>
 <code>params</code>是参数$\theta$。<br><br>每次循环中，用所有训练数据<code>data</code>计算出梯度向量<code>params_grad</code>，然后沿着梯度的反方向更新参数。更新的大小取决于学习率<code>learning rate</code>。<br><br><br></li>
 </ul>
-<h4 id="随机梯度下降-SGD"><a href="#随机梯度下降-SGD" class="headerlink" title="随机梯度下降(SGD)"></a>随机梯度下降(SGD)</h4><p>SGD每次用一个训练数据$x^i$和一个标签$y^i$完成一次更新。<br>$\theta = \theta - \eta \cdot \nabla_\theta J( \theta; x^{(i)}; y^{(i)})$<br><br>与BGD相比，SGD每次参数更新的速度快得多。<br><br>不过SGD计算出的参数θ有很高的方差。<br><img src="%5Cimages%5CSGD%E9%9C%87%E8%8D%A1.png" alt="upload successful"><br>上图是SGD震荡。<br><br>SGD震荡有可能从局部最小值跳出到更小的局部最小值。不过，SGD震荡使收敛变得复杂，更可能需要更多的参数更新次数。其实实际上，只要把学习率设置的比较小，SGD的收敛情况于BGD差不多，也是收敛到凸函数的全局最小和非凸函数的局部最小值。</p>
+<h4 id="随机梯度下降-SGD"><a href="#随机梯度下降-SGD" class="headerlink" title="随机梯度下降(SGD)"></a>随机梯度下降(SGD)</h4><p>SGD每次用一个训练数据$x^i$和一个标签$y^i$完成一次更新。<br>$\theta = \theta - \eta \cdot \nabla_\theta J( \theta; x^{(i)}; y^{(i)})$<br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for i in range(nb_epochs):</span><br><span class="line">  np.random.shuffle(data)</span><br><span class="line">  for example in data:</span><br><span class="line">    params_grad &#x3D; evaluate_gradient(loss_function, example, params)</span><br><span class="line">    params &#x3D; params - learning_rate * params_grad</span><br></pre></td></tr></table></figure>
+<p>显而易见，与BGD相比，SGD每次参数更新的运算速度快得多。<br><br>不过SGD计算出的参数θ有很高的方差。<br><img src="%5Cimages%5CSGD%E9%9C%87%E8%8D%A1.png" alt="upload successful"><br>上图是SGD震荡。<br></p>
+<ul>
+<li>由于算法的随机性质，它比BGD要不规则的多。成本函数不再是缓慢降低到最小值，而是不断上上下下，但是从整体看还是在不断下降的。并且SGD最终只有接近最小值，即使达到了最小值还是会持续反弹，永远不会停止。所以SGD停下来的地方参数会足够好，但不是最优解。  </li>
+<li>SGD除了运算速度的优势外，还可以帮助算法跳出局部最小值。当成本函数不是凸函数时，SGD在找到全局最小值更有优势。  </li>
+<li>总结来说：随机性的好处在于可以逃离局部最小值，但缺点是定位不出最小值。  <br>
+如何优化定位不到最小值?  
+模拟退火过程：逐步降低学习率。开始步长较大，有助于快速进展和逃离最小值，然后越来越小，让算法尽量靠近最小值。  
+note: 确定每个迭代学习率的函数叫做**学习计划**。
+
+
+
+
+
+</li>
+</ul>
 <p><br><br></p>
-<h4 id="迷你批梯度下降发-miniBGD"><a href="#迷你批梯度下降发-miniBGD" class="headerlink" title="迷你批梯度下降发(miniBGD)"></a>迷你批梯度下降发(miniBGD)</h4><p>miniBGD每次用n个训练数据来进行一次参数θ更新。<br>$\theta = \theta - \eta \cdot \nabla_\theta J( \theta; x^{(i:i+n)}; y^{(i:i+n)})$<br>这样一来，每次训练的数据不会太多，也避免了过大的参数震荡。</p>
+<h4 id="迷你批梯度下降法-miniBGD"><a href="#迷你批梯度下降法-miniBGD" class="headerlink" title="迷你批梯度下降法(miniBGD)"></a>迷你批梯度下降法(miniBGD)</h4><p>miniBGD每次用n个训练数据来进行一次参数θ更新。<br>$\theta = \theta - \eta \cdot \nabla_\theta J( \theta; x^{(i:i+n)}; y^{(i:i+n)})$<br>这样一来，每次训练的数据不会太多，也避免了过大的参数震荡。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for i in range(nb_epochs):</span><br><span class="line">  np.random.shuffle(data)</span><br><span class="line">  for batch in get_batches(data, batch_size&#x3D;50):</span><br><span class="line">    params_grad &#x3D; evaluate_gradient(loss_function, batch, params)</span><br><span class="line">    params &#x3D; params - learning_rate * params_grad</span><br></pre></td></tr></table></figure>
 
 <table>
@@ -164,6 +179,7 @@
 <p>$\gamma$通常设在0.9左右。</p>
 </blockquote>
 <p><img src="%5Cimages%5CNAG.png" alt="upload successful"></p>
+<p>$$\frac{\partial u}{\partial t}<br>= h^2 \left( \frac{\partial^2 u}{\partial x^2} +<br>\frac{\partial^2 u}{\partial y^2} +<br>\frac{\partial^2 u}{\partial z^2}\right)$$</p>
 
       
     </div>
@@ -311,5 +327,20 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
